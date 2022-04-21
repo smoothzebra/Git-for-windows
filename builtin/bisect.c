@@ -1257,6 +1257,8 @@ int cmd_bisect(int argc, const char **argv, const char *prefix)
 
 	git_config(git_default_config, NULL);
 
+	git_config(git_default_config, NULL);
+
 	argc -= 2;
 	argv += 2;
 

@@ -157,6 +157,9 @@ void fsm_settings__set_ipc(struct repository *r)
 	if (!r->settings.fsmonitor)
 		r->settings.fsmonitor = alloc_settings();
 
+	if (check_for_incompatible(r))
+		return;
+
 	r->settings.fsmonitor->mode = FSMONITOR_MODE_IPC;
 	r->settings.fsmonitor->reason = reason;
 	FREE_AND_NULL(r->settings.fsmonitor->hook_path);
@@ -179,6 +182,9 @@ void fsm_settings__set_hook(struct repository *r, const char *path)
 		r = the_repository;
 	if (!r->settings.fsmonitor)
 		r->settings.fsmonitor = alloc_settings();
+
+	if (check_for_incompatible(r))
+		return;
 
 	r->settings.fsmonitor->mode = FSMONITOR_MODE_HOOK;
 	r->settings.fsmonitor->reason = reason;

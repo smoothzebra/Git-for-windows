@@ -1182,6 +1182,17 @@ int cmd_update_index(int argc, const char **argv, const char *prefix)
 		the_index.version = preferred_index_format;
 	}
 
+	/*
+	 * It is possible, though unlikely, that a caller could use the verbose
+	 * output to synchronize with addition of objects to the object
+	 * database. The current implementation of ODB transactions leaves
+	 * objects invisible while a transaction is active, so end the
+	 * transaction here if verbose output is enabled.
+	 */
+
+	if (verbose)
+		end_odb_transaction();
+
 	if (read_from_stdin) {
 		struct strbuf buf = STRBUF_INIT;
 		struct strbuf unquoted = STRBUF_INIT;
